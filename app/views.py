@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from .models import *
 from time import sleep
 
@@ -43,22 +44,29 @@ def add_question(request):
         return render(request, "index.html")
     elif request.method == "POST":
         data = loads(request.body)
+        
         if data.get("content") == "":
             return JsonResponse({"error":"a Question should have some content"}, status=400)
+        
         quiz = Quiz.objects.get(pk=data.get("quiz_id"))
-        question = Question.objects.create(content=data.get("content"), quiz=quiz)
+        question = Question.objects.create(content=data.get("content"),timer = data.get("timer"),quiz=quiz)
+        
         for option in data.get("option"):
             Option.objects.create(content=option["text"], correct=option["correct"], question=question)
+            
         return JsonResponse({
             "message":"Success",
             "question_id":question.id,
             }, status=201)
+        
     elif request.method == "PUT":
         data = loads(request.body)
         if data.get("content") == "":
             return JsonResponse({"error":"a Question should have some content"}, status=400)
         question = Question.objects.get(pk = data.get("question_id"))
         question.content = data.get("content")
+        question.timer = data.get("timer")
+        
         question.save()
         Option.objects.filter(question=question).delete()
         for option in data.get("options"):
@@ -70,8 +78,30 @@ def add_question(request):
 def is_authenticated(request):
     return JsonResponse({"is_authenticated":request.user.is_authenticated},safe=False)
 
+@csrf_exempt
 def quizs(request):
-    return JsonResponse([quiz.serialize() for quiz in Quiz.objects.all()], safe=False)
+    if request.method == "POST":
+        
+        quisz = Quiz.objects.all()
+        
+        quiz_num = 20
+        
+        if quisz.count() % quiz_num == 0:
+            total_pages = quisz.count() / quiz_num
+        else:
+            total_pages = int(quisz.count() / quiz_num) + 1
+            
+        page_number = loads(request.body).get("page_number")
+        
+        paginator = Paginator(quisz, quiz_num)
+        quisz = paginator.get_page(page_number)
+        
+        if total_pages >= page_number:
+            return JsonResponse([quiz.serialize() for quiz in quisz], safe=False)
+        else:
+            return JsonResponse({"error":"the page does not exist"}, safe=False)
+
+
 def quiz_id(request, id):
     if request.method == 'GET':
         quiz = Quiz.objects.get(pk=id)

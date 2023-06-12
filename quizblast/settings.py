@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'quizblast.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'yEuvQIauoiSE1ofYcFxg',
+        'HOST': 'containers-us-west-16.railway.app',
+        'PORT': '5584',
     }
 }
 
@@ -126,7 +130,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
+# STATIC_ROOT = os.path.join(BASE_DIR, 'my-app/build/static')
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -134,8 +138,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'my-app/build/static'),
     os.path.join(BASE_DIR, 'my-app/build'),
-    os.path.join(BASE_DIR, 'my-app/public'),
-    
 ]
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
