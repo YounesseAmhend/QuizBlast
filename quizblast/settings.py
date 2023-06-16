@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-srtt4&wl17w^uayqf1ir!z6zm8!iqsw&++!ff2(9_wn0t@3sqk
 DEBUG = False
 
 ALLOWED_HOSTS = []
-
+WSGI_APPLICATION = 'quizblast.wsgi.application'
 
 # Application definition
 
