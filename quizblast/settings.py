@@ -128,9 +128,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/my-app/build/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'my-app/build/static')
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -166,4 +165,4 @@ CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:3000',
     'http://172.30.192.1:3000',
 )
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "my-app/build/static'")
