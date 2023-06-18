@@ -80,12 +80,15 @@ WSGI_APPLICATION = 'quizblast.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'yEuvQIauoiSE1ofYcFxg',
-        'HOST': 'containers-us-west-16.railway.app',
-        'PORT': '5584',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'defaultdb',
+        'HOST': 'pg-1254e25b-quizblast.aivencloud.com',
+        'PORT': '13878',
+        'USER': 'avnadmin',
+        'PASSWORD': 'AVNS_7sKIw_q1wGy_iUaIqLE',
+        'OPTIONS': {
+            'sslmode': 'require',
+        }
     }
 }
 
