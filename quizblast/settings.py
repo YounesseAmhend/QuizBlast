@@ -67,30 +67,21 @@ WSGI_APPLICATION = 'quizblast.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'defaultdb',
-#         'HOST': 'pg-1254e25b-quizblast.aivencloud.com',
-#         'PORT': '13878',
-#         'USER': 'avnadmin',
-#         'PASSWORD': 'AVNS_7sKIw_q1wGy_iUaIqLE',
-#         'OPTIONS': {
-#             'sslmode': 'require',
-#         }
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'railway',
-        'HOST': 'containers-us-west-178.railway.app',
-        'PORT': '6831',
-        'USER': 'root',
-        'PASSWORD': 'fN94Cnmr2k21BVdMLHf1',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'defaultdb',
+        'HOST': 'pg-1254e25b-quizblast.aivencloud.com',
+        'PORT': '13878',
+        'USER': 'avnadmin',
+        'PASSWORD': 'AVNS_7sKIw_q1wGy_iUaIqLE',
+        'OPTIONS': {
+            'sslmode': 'require',
+        }
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
