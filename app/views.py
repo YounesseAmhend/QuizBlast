@@ -82,7 +82,7 @@ def is_authenticated(request):
 def quizs(request):
     if request.method == "POST":
         
-        quisz = Quiz.objects.all()
+        quisz = Quiz.objects.all().order_by('id')
         
         quiz_num = 20
         
