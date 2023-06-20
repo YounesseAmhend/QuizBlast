@@ -21,30 +21,22 @@ export default function Home(props: Props) {
     const { data: quizs, loaded, fetchMore, error ,hasMore} = useFetch<Quiz[]>("/quiz", [], "POST");
     const oldData = useRef()
 
-    // todo react infinite scroll
     const getMore = async () => {
-            pageCount.current++;
-            await fetchMore({"page_number":pageCount.current})
-            
+            if(loaded){
+                pageCount.current++;
+                await fetchMore({"page_number":pageCount.current})
+            }
             console.log("done")
-
-            // updating the page counter
-
-            
-
-            console.log(pageCount.current)
 
     }
 
     return (
         <Suspense fallback={<Loading loaded={false} />}>
-            <Loading loaded={loaded}/>
             <InfiniteScroll
                 loadMore={getMore}
-                hasMore={hasMore.current}
-                loader={<Loading loaded={true} />}
+                hasMore={hasMore.current }
             >
-                <div onScrollCapture={() => {}} className="quiz-container">
+                <div onScrollCapture={() => {}} className="quiz-container mb-2">
                     {quizs?.map(function (quiz: Quiz) {
                         return (
                             <Quiz
@@ -59,6 +51,7 @@ export default function Home(props: Props) {
                     })}
                 </div>
             </InfiniteScroll>
+            <Loading loaded={loaded}/>
         </Suspense>
     );
 }

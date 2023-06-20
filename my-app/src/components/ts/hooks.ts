@@ -40,39 +40,42 @@ export function useFetch<T>(link: string, init?: T, method: method = 'GET', requ
 
     const [data, setData] = useState<T | undefined | any>(init)
 
-    const [loaded, setLoaded] = useState(false)
+    const [loaded, setLoaded] = useState(true)
 
     const hasMore = useRef(true)
 
     const [error, setError] = useState<string | undefined>()
 
     const fetchMore = async (request: any) =>{
+            setLoaded(false)
             console.log(request)
             await fetch("http://127.0.0.1:8000" + link, {
                 method: method,
                 body: JSON.stringify(request),
             })
-
+            
             .then(response =>{
                 return response.json()
             })
 
             .then((result)=>{
-
-                if(!result.error){
+                console.log(result)
+                if(result.error===undefined){
 
                     console.log(data)
 
                     setData((old:any)=>[...old,...result])
                     
                     setLoaded(true)
+                    
+                    
                 }
                 else{
 
                     setError(result.error);
-
+                    
                     hasMore.current = false;
-
+                    setLoaded(true)
                     console.log("Enough");
                 }
             })
