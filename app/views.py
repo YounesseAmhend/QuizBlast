@@ -7,7 +7,6 @@ from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from .models import *
 from time import sleep
 
@@ -89,14 +88,14 @@ def quizs(request):
         if quisz.count() % quiz_num == 0:
             total_pages = quisz.count() / quiz_num
         else:
-            total_pages = int(quisz.count() / quiz_num) + 1
+            total_pages = quisz.count() // quiz_num + 1
             
         page_number = loads(request.body).get("page_number")
         
         paginator = Paginator(quisz, quiz_num)
-        quisz = paginator.get_page(page_number)
         
         if total_pages >= page_number:
+            quisz = paginator.get_page(page_number)
             return JsonResponse([quiz.serialize() for quiz in quisz], safe=False)
         else:
             return JsonResponse({"error":"the page does not exist"}, safe=False)
