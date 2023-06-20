@@ -49,7 +49,7 @@ export function useFetch<T>(link: string, init?: T, method: method = 'GET', requ
     const fetchMore = async (request: any) =>{
             setLoaded(false)
             console.log(request)
-            await fetch("http://127.0.0.1:8000" + link, {
+            await fetch(link, {
                 method: method,
                 body: JSON.stringify(request),
             })
