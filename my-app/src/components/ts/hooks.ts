@@ -86,7 +86,7 @@ export function useFetch<T>(link: string, init?: T, method: method = 'GET', requ
         if(method === 'GET'){
 
             const fetchdata = async () => {
-                await fetch("http://127.0.0.1:8000"+link)
+                await fetch(link)
                 .then(response =>{
                     console.log(response)
                     return response.json()
