@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef, useCallback } from "react"
 
 type method = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH'
-const web = "http://127.0.0.1:8000"
+
 export function useAuth(){
 
     const [is_authenticated, setAuthentication] = useState<boolean | undefined>(undefined)
@@ -49,7 +49,7 @@ export function useFetch<T>(link: string, init?: T, method: method = 'GET', requ
     const fetchMore = async (request: any) =>{
             setLoaded(false)
             console.log(request)
-            await fetch(web + link, {
+            await fetch(link, {
                 method: method,
                 body: JSON.stringify(request),
             })
@@ -86,7 +86,7 @@ export function useFetch<T>(link: string, init?: T, method: method = 'GET', requ
         if(method === 'GET'){
 
             const fetchdata = async () => {
-                await fetch(web+link)
+                await fetch(link)
                 .then(response =>{
                     console.log(response)
                     return response.json()
