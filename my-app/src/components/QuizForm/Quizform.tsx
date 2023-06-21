@@ -45,12 +45,14 @@ export default function QuizForm(props: Props){
         })
         setOldInput(input)
     }
-    const saveQ = () => props.goHome()
+    const saveQ = () => {
+        props.goHome()
+    }
     return (
         <>
         { 
         visible.quiz && <div>
-            <h2 className='text-4xl font-medium'>Quiz</h2>
+            <h2 className='text-4xl max-[600px]:text-3xl font-medium'>Quiz</h2>
             <div id='quiz-form-container' >
                 
                 <Form  className='quiz-form' onSubmit={addQuiz}>

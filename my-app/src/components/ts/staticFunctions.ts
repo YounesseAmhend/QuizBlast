@@ -69,7 +69,7 @@ export async function subQuiz(input:string):Promise<number>{
     return id
 }
 
-export async function subQuestion(quiz_id:number, input:string, optionsToSub:optionSub[]){
+export async function subQuestion(quiz_id:number, input:string, timer:number, optionsToSub:optionSub[]){
     let question_id : number | undefined = undefined
     if (optionsToSub.length > 0 && input !== ""){
         await fetch("/question",{
@@ -78,6 +78,7 @@ export async function subQuestion(quiz_id:number, input:string, optionsToSub:opt
                     "quiz_id": quiz_id,
                     "content": input,
                     "option": optionsToSub,
+                    "timer": timer,
                 })
             })
             .then((response)=>response.json())
@@ -123,7 +124,8 @@ export async function subUpQuestion(question: Question){
         body: JSON.stringify({
             question_id: question.id,
             content: question.content,
-            options: question.options
+            options: question.options,
+            timer: question.timer
         })
     })
 }
@@ -141,7 +143,7 @@ export const logout = async () => {
     const csrftoken = getCookie('csrftoken');
     let headers = new Headers();
     headers.append('X-CSRFToken', csrftoken);
-    fetch("http://127.0.0.1:8000/logout", {
+    fetch("/logout", {
         method: 'POST',
         headers: headers,
         credentials: 'include'

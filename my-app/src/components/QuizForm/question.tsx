@@ -110,7 +110,7 @@ export default function QuestionForm(props: Props) {
             setVisible(false)
             window.scrollTo(0, 0);
 
-            let question_id: number | undefined = await subQuestion(quiz_id, input, optionsToSubmit)
+            let question_id: number | undefined = await subQuestion(quiz_id, input, timer, optionsToSubmit)
             setCurrentCount(currentCount + 1)
             setQuestions([...questions, { count: questions.length + 1, quiz_id: quiz_id, options: options, id: question_id, content: input, timer:timer  }])
         }
@@ -165,7 +165,7 @@ export default function QuestionForm(props: Props) {
                 <>
                     <div className="flex justify-center mb-3">
                         <div className="flex justify-between quiz-form">
-                            <div className='text-4xl font-medium'>Question</div>
+                            <div className='text-4xl font-medium max-[600px]:text-3xl'>Question</div>
                             <Time time={time} setTime={setTime} />
                         </div>
                     </div>

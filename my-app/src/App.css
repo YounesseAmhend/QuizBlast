@@ -146,7 +146,9 @@
 .options-container{
   margin-inline:10px;
 }
-
+.w95{
+  width: 99%;
+}
 .option-normal:hover{
   border: solid 3px rgb(0, 70, 174);
   background-color: rgba(231, 236, 252, 0.345);
