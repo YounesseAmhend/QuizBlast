@@ -52,34 +52,33 @@ function App() {
     register: false,
     login: false,
   })
-
   const navigateTo = useCallback((page: Page) => {
     Object.keys(display).forEach((key, value) => {
+      console.log("working on navigation")
       key === page.name ? display[key as keyof Display] = true : display[key as keyof Display] = false
     })
     if (page.path !== PAGES.VIEW_QUIZ.path) { goToPath(page.path) }
     setDisplays({ ...display })
-  }, [])
-
+  }, [display])
   useEffect(() => {
     const pathname = window.location.pathname;
     Object.keys(PAGES).forEach((key, value) => {
-      const PAGE = PAGES[key as keyof Pages]
+        const Page = PAGES[key as keyof Pages]
       if (loaded) {
-        if (pathname.substring(0, 6) === PAGES.VIEW_QUIZ.path && is_authenticated) {
+        if (pathname.substring(0, 6) === PAGES.VIEW_QUIZ.path) {
+          console.log("navigating...")
           setId(parseInt(pathname.substring(6, pathname.length)))
           navigateTo({ path: pathname, name: PAGES.VIEW_QUIZ.name, auth: PAGES.VIEW_QUIZ.auth })
         }
-        else if (PAGE.path === pathname && pathname !== "/" && PAGE.auth === is_authenticated) {
-          navigateTo(PAGE)
+          else if (Page.path === pathname && pathname !== "/" && PAGES[key as keyof Pages].auth === is_authenticated) {
+            navigateTo(PAGES[key as keyof Pages])
         }
       }
     })
   }
-  ,[is_authenticated])
+    , [is_authenticated])
 
   useEffect(() => { if (id && display.view_quiz) { goToPath("/quiz/" + id) } }, [display.view_quiz, id])
-
   function goToPath(pathname: string) {
     window.history.pushState(null, "", pathname);
   }

@@ -46,7 +46,7 @@ export default function QuizResult(props: Props){
     return (
         <>
             {visible && 
-                <div className="flex justify-center">
+                <div className="flex justify-center mb-10">
                      <div className="flex-col w-4/5 page-container">
                         <div className="text-center text-xl font-semibold pt-3">{quizname}</div>
                         <div className="flex justify-center">

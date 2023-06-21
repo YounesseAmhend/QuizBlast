@@ -19,10 +19,15 @@ const Quiz = lazy(() => import("./Quiz"));
 export default function Home(props: Props) {
     const pageCount = useRef(0)
     const { data: quizs, loaded, fetchMore, error ,hasMore} = useFetch<Quiz[]>("/quiz", [], "POST");
-    const oldData = useRef()
+    const firstime = useRef(true)
 
     const getMore = async () => {
             if(loaded){
+                pageCount.current++;
+                await fetchMore({"page_number":pageCount.current})
+            }
+            else if(firstime.current){
+                firstime.current = false
                 pageCount.current++;
                 await fetchMore({"page_number":pageCount.current})
             }

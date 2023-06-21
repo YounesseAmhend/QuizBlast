@@ -47,7 +47,7 @@ export default function Options(props: Props) {
     }
   }
   return (
-    <div className="options-container m-3">
+    <div className="options-container m-3 grid-cols-2 grid max-[600px]:grid-cols-1">
       {props.options?.map(option => {
         return (
           <div key={option.id}>

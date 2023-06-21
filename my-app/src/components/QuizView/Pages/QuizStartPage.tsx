@@ -11,7 +11,7 @@ export default function QuizStart(props: Props) {
     return (
         <>
             {(visible && loaded) && <div className="flex justify-center">
-                <div className="rounded-lg shadow-lg w-4/12 flex-column">
+                <div className="rounded-lg shadow-lg w-6/12 flex-column max-[650px]:w-11/12">
                     <div className="flex justify-center quizname-container">
                         <div className="text-2xl p-3 font-bold quizname">{quizname}</div>
                     </div>

@@ -23,8 +23,8 @@ export default function MoreBtn(props: Props){
                 <div>
                         <hr className='mb-4'/>
                         {result?.map(r=>
-                            <div className=' ml-20'>
-                                <div className="text-xl font-semibold mb-3">{r.count}. {r.Quesiton}</div>
+                            <div className=' ml-20 max-[600px]:ml-10'>
+                                <div className="text-xl max-[600px]:text-base font-semibold mb-3">{r.count}. {r.Quesiton}</div>
                                 {r.correct ? 
                                     <div className=" text-green-500 font-medium mb-3 pl-4">You Answer: {r.answer}</div>:
                                     <>

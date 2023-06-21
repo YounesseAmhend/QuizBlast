@@ -40,7 +40,7 @@ export function useFetch<T>(link: string, init?: T, method: method = 'GET', requ
 
     const [data, setData] = useState<T | undefined | any>(init)
 
-    const [loaded, setLoaded] = useState(true)
+    const [loaded, setLoaded] = useState(false)
 
     const hasMore = useRef(true)
 
