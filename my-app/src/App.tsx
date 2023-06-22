@@ -53,28 +53,33 @@ function App() {
     login: false,
   })
   const navigateTo = useCallback((page: Page) => {
-    Object.keys(display).forEach((key, value) => {
-      console.log("working on navigation")
-      key === page.name ? display[key as keyof Display] = true : display[key as keyof Display] = false
-    })
-    if (page.path !== PAGES.VIEW_QUIZ.path) { goToPath(page.path) }
-    setDisplays({ ...display })
-  }, [display])
+    const updatedDisplay = { ...display };
+    for (const key of Object.keys(updatedDisplay)) {
+      console.log("working on navigation");
+      updatedDisplay[key as keyof Display] = key === page.name;
+    }
+    if (page.path !== PAGES.VIEW_QUIZ.path) {
+      goToPath(page.path);
+    }
+    setDisplays(updatedDisplay);
+  }, [display]);
+  
   useEffect(() => {
     const pathname = window.location.pathname;
-    Object.keys(PAGES).forEach((key, value) => {
-        const Page = PAGES[key as keyof Pages]
-      if (loaded) {
+    const pageKeys = Object.keys(PAGES);
+
+    if (loaded) {
+      for (const key of pageKeys) {
+        const Page = PAGES[key as keyof Pages];
         if (pathname.substring(0, 6) === PAGES.VIEW_QUIZ.path) {
-          console.log("navigating...")
-          setId(parseInt(pathname.substring(6, pathname.length)))
-          navigateTo({ path: pathname, name: PAGES.VIEW_QUIZ.name, auth: PAGES.VIEW_QUIZ.auth })
-        }
-          else if (Page.path === pathname && pathname !== "/" && PAGES[key as keyof Pages].auth === is_authenticated) {
-            navigateTo(PAGES[key as keyof Pages])
+          console.log("navigating...");
+          setId(parseInt(pathname.substring(6)));
+          navigateTo({ path: pathname, name: PAGES.VIEW_QUIZ.name, auth: PAGES.VIEW_QUIZ.auth });
+        } else if (Page.path === pathname && pathname !== "/" && Page.auth === is_authenticated) {
+          navigateTo(Page);
         }
       }
-    })
+    }
   }
     , [is_authenticated])
 

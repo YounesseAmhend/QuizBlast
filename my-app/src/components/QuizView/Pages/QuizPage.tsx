@@ -57,6 +57,7 @@ export default function QuizPage(props: Props) {
     const [pageCount, setPageCount] = useState(1)
     const [selectedOption, setSelectedOption] = useState<number | undefined>(undefined)
     const [halfResult, setResult] = useState<half>();
+    const [timeIsOut, setTimeIsOut] = useState(false);
     useEffect(()=>{
         if(visible)
         setResult({
@@ -72,9 +73,9 @@ export default function QuizPage(props: Props) {
             {visible &&
                 <div className="flex justify-center">
                     <div id="page-container" className="w-4/5 page-container">
-                        <Header paused={chosed} timer={Quiz?.questions[pageCount-1]?.question.timer} quizname={Quiz.quiz.name} pageCount={pageCount} score={score} questionLength={Quiz?.questions.length}/>
+                        <Header TimeIsOut={timeIsOut} setTimeIsOut={setTimeIsOut} setChosed={setChosed} paused={chosed} timer={Quiz?.questions[pageCount-1]?.question.timer} quizname={Quiz.quiz.name} pageCount={pageCount} score={score} questionLength={Quiz?.questions.length}/>
                         <Title title={Quiz.questions[pageCount-1].question.content}/>
-                        <Options halfResult={halfResult!} setResults={setResults} setCorrectQuestions={setCorrectQuestions} setScore={setScore} selectedOption={selectedOption} setSelectedOption={setSelectedOption} options={Quiz?.questions[pageCount-1]?.options} setChosed={setChosed}/>
+                        <Options timeIsOut={timeIsOut} halfResult={halfResult!} setResults={setResults} setCorrectQuestions={setCorrectQuestions} setScore={setScore} selectedOption={selectedOption} setSelectedOption={setSelectedOption} options={Quiz?.questions[pageCount-1]?.options} setChosed={setChosed}/>
                         <NextBtn questionLength={Quiz.questions.length} setVisible={setVisible} setSelectedOption={setSelectedOption} setChosed={setChosed} pageCount={pageCount} setPageCount={setPageCount} visible={chosed}/>
 
                         <Quote text={Quiz.questions[pageCount-1]?.question.quote}/>

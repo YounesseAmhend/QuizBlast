@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 interface Option {
   id: number;
@@ -19,6 +19,7 @@ interface half{
   quote?:string;
 }
 interface Props {
+  timeIsOut:boolean;
   options: Option[];
   setChosed(value: boolean): void;
   setSelectedOption: React.Dispatch<React.SetStateAction<number | undefined>>
@@ -29,14 +30,9 @@ interface Props {
   selectedOption: number | undefined;
 }
 export default function Options(props: Props) {
-  let correctOption:string;
+  let correctOption: string;
   function showResult(id: number, correct: boolean, content: string) {
     if (props.selectedOption === undefined) {
-      for(let i = 0; i < (props.options?.length || 0); i++){
-       if(props.options[i].correct){
-        correctOption = props.options[i].content;
-       }
-      }
       props.setChosed(true)
       props.setSelectedOption(id)
       if (correct) {
@@ -45,13 +41,25 @@ export default function Options(props: Props) {
       }
       props.setResults(results=>[...results, {...props.halfResult, correct:correct, correctAnswer:correctOption, answer:content }])
     }
+    
   }
+  useEffect(()=>{
+    for (const option of props.options) {
+      if (option.correct) {
+        correctOption = option.content;
+        break;
+      }
+    }
+    if (props.timeIsOut){
+      props.setResults(results=>[...results, {...props.halfResult, correct: false, correctAnswer:correctOption, answer:"", timeOut:true }])
+    }
+  },[props.timeIsOut])
   return (
     <div className="options-container m-3 grid-cols-2 grid max-[600px]:grid-cols-1">
       {props.options?.map(option => {
         return (
           <div key={option.id}>
-            {props.selectedOption ?
+            {(props.selectedOption!== undefined && !props.timeIsOut) ?
               <>
                 {option.correct &&
                   <div className={' option-view option-correct cursor-pointer'}>{option.content}</div>
@@ -64,7 +72,19 @@ export default function Options(props: Props) {
                 }
               </>
               :
-              <div onClick={() => showResult(option.id, option.correct, option.content)} className='option-view option-normal cursor-pointer'>{option.content}</div>
+              <>
+                {props.timeIsOut ? 
+                  <>
+                      {option.correct ?
+                        <div className={' option-view option-correct cursor-pointer'}>{option.content}</div>
+                        :
+                        <div className={' option-view option-disabled cursor-pointer'}>{option.content}</div>
+                      }
+                  </>
+                  :
+                  <div onClick={() => showResult(option.id, option.correct, option.content)} className='option-view option-normal cursor-pointer'>{option.content}</div>
+                }
+              </>
             }
           </div>
         )

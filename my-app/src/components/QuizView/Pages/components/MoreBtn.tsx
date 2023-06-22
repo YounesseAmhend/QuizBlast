@@ -6,6 +6,7 @@ interface Results{
     correct: boolean;
     correctAnswer:string;
     quote?:string;
+    timeOut?:boolean;
 }
 interface Props{
     result?: Results[];
@@ -28,7 +29,7 @@ export default function MoreBtn(props: Props){
                                 {r.correct ? 
                                     <div className=" text-green-500 font-medium mb-3 pl-4">You Answer: {r.answer}</div>:
                                     <>
-                                        <div className="text-red-600 font-medium pl-4" >You Answer: {r.answer}</div>
+                                        <div className="text-red-600 font-medium pl-4" >{r.timeOut ? <>You run out of time</> : <>You Answer : {r.answer}</>} </div>
                                         <div className="font-medium mb-4 pl-4">Correct answer: {r.correctAnswer}</div>
                                     </>
                                  }

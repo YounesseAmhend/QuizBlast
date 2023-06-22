@@ -28,7 +28,6 @@ interface Question {
     timer: number,
 }
 export default function QuestionForm(props: Props) {
-
     const VALIDATIONS = {
         OPTIONS_LIMIT : 4,
         OPTIONS_MAX_LENGTH: 100,

@@ -22,20 +22,24 @@ export default function QuizForm(props: Props){
         question:false,
         isback:false,
     })
-    async function addQuiz(event:React.FormEvent){
+    async function addQuiz(event: React.FormEvent) {
         event.preventDefault();
-        if(!visible.isback && input !== "" && input.length < 22 && isOnlySpace(input)){
-            const id = await subQuiz(input)
-            setId(id)
-            setVisible({quiz:false, question:true, isback:false})
-        }
-        else if(visible.isback && input !== "" && input.length < 100 && isOnlySpace(input)){
-            setVisible({quiz:false, question:true, isback:true})
-            if (oldInput !== input){
-                UpQuiz(input, quiz_id)
+        if (input !== "" && input.length < 22 && isOnlySpace(input)) {
+          if (!visible.isback) {
+            const id = await subQuiz(input);
+            setId(id);
+            setVisible({ quiz: false, question: true, isback: false });
+          } else {
+            setVisible({ quiz: false, question: true, isback: true });
+            if (oldInput !== input) {
+              if (input.length < 100 && isOnlySpace(input)) {
+                UpQuiz(input, quiz_id);
+              }
             }
+          }
         }
-    }
+      }
+      
     const [oldInput, setOldInput] = useState("")
     function goBack(){
         setVisible({
