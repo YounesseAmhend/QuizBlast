@@ -118,7 +118,7 @@ function App() {
         <QuizForm goHome={displayHome} />
       )}
       {display.login && (
-        <Login goRegister={displayHome} />
+        <Login goRegister={displayRegister} />
       )}
       {display.register && (
         <Register goLogin={displayLogin} />

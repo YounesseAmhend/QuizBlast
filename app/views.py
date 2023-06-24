@@ -7,8 +7,10 @@ from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from random import choice, randint
+from string import ascii_letters, digits, punctuation
 from .models import *
-from time import sleep
+from time import sleep 
 
 # Create your views here.
 def index(request):
@@ -80,25 +82,18 @@ def is_authenticated(request):
 @csrf_exempt
 def quizs(request):
     if request.method == "POST":
-        
-        quisz = Quiz.objects.all().order_by('id')
-        
         quiz_num = 20
-        
-        if quisz.count() % quiz_num == 0:
-            total_pages = quisz.count() / quiz_num
-        else:
-            total_pages = quisz.count() // quiz_num + 1
-            
         page_number = loads(request.body).get("page_number")
-        
-        paginator = Paginator(quisz, quiz_num)
-        
-        if total_pages >= page_number:
-            quisz = paginator.get_page(page_number)
-            return JsonResponse([quiz.serialize() for quiz in quisz], safe=False)
-        else:
-            return JsonResponse({"error":"the page does not exist"}, safe=False)
+
+        start_index = (page_number - 1) * quiz_num
+        end_index = start_index + quiz_num
+
+        quiz_list = Quiz.objects.order_by('id')[start_index:end_index]
+        serialized_quizzes = [quiz.serialize() for quiz in quiz_list]
+
+        return JsonResponse(serialized_quizzes, safe=False)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 def quiz_id(request, id):
@@ -120,28 +115,32 @@ def display_quiz(request, id):
 def register(request):
     if request.method == "POST":
         username = request.POST["username"]
-        email = request.POST["email"]
-
+        email = ""
+        guest = True if request.POST["guest"]=="true" else False
         # Ensure password matches confirmation
-        password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
-        if password != confirmation:
-            return render(request, "network/register.html", {
-                "message": "Passwords must match."
-            })
+        if guest:
+            username = randomUsername()
+            password = randomPassword()
+        else:
+            password = request.POST["password"]
+            confirmation = request.POST["confirmation"]
+            if password != confirmation:
+                return render(request, "index.html", {
+                    "message": "Passwords must match."
+                })
 
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
         except IntegrityError:
-            return render(request, "register.html", {
+            return render(request, "index.html", {
                 "message": "Username already taken."
             })
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "register.html")
+        return render(request, "index.html")
  
 
 
@@ -168,6 +167,10 @@ def login_view(request):
                 "message": "Invalid username and/or password."
             }, status=401)
     else:
-        return JsonResponse({
-                "Login": "Successfully logged in"
-        }, status=401)
+        return render(request, "index.html")
+    
+def randomPassword(length=10):
+    return ''.join(choice(ascii_letters + digits + punctuation) for _ in range(length))
+
+def randomUsername():
+    return f"guest{randint(1000,9999)}" 

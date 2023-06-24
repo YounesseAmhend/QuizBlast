@@ -13,7 +13,6 @@ interface Props{
 }
 
 export default function Header(props: Props){
-    console.log("timer :",props.timer)
     return(
         <>
             <div className="self-center flex  justify-center ">

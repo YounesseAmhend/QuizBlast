@@ -147,6 +147,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000',
+                        'http://127.0.0.1:8000',
                         'http://localhost:3000',
                         'http://172.30.192.1:3000',
                     ]
@@ -159,6 +160,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://127.0.0.1:3000',
+    'http://127.0.0.1:8000',
     'http://172.30.192.1:3000',
 )
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")

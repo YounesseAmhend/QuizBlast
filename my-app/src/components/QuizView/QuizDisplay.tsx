@@ -74,6 +74,7 @@ export default function QuizDisplay(props: Props){
         <>
             <Loading loaded={loaded}/>
             <QuizStart 
+              madeBy={(Quiz as FullQuiz)?.quiz.username}
               visible={pages.startView} 
               loaded={loaded} 
               startQuiz={() => navigateTo(PAGES.PAGE)} 

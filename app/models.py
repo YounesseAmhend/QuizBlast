@@ -3,11 +3,10 @@ from django.contrib.auth.models import AbstractUser
 
 # models
 class User(AbstractUser):
-    pass
+    is_guest = models.BooleanField(default=False)
 
 # quiz have many questions
 class Quiz(models.Model):
-    # todo: should add timestamp
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_post', null=False)
     name = models.TextField(blank=True, null=False)
     timestamp = models.DateTimeField(auto_now_add=True, null=True)

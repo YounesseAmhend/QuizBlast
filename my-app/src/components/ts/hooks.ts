@@ -38,7 +38,7 @@ export function useAuth(){
 
 export function useFetch<T>(link: string, init?: T, method: method = 'GET', request?: any){
 
-    const [data, setData] = useState<T | undefined | any>(init)
+    const [data, setData] = useState<any | undefined | T>(init)
 
     const [loaded, setLoaded] = useState(false)
 

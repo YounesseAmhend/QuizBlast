@@ -327,6 +327,12 @@ h2{
 .btn:hover{
   filter:drop-shadow(0px 0px 10px #468aff);
 }
+.btn-guest{
+  transition: 250ms ease-in-out;
+}
+.btn-guest:hover{
+  filter:drop-shadow(0px 0px 7px #46ff84ab);
+}
 .center-flex{
   display: flex;
   gap:40px;
