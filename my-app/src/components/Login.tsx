@@ -5,9 +5,9 @@ interface Props{
 export default function Login(props: Props){
     return(
         <>
-        <h2 className="text-3xl">Login</h2>
         <div  className="form-style">
             <form action="/login" method="post">
+            <h2 className="text-3xl max-[600px]:text-2xl m-0 mb-4 mt-3">Login</h2>
                 <CSRFToken />
                 <div className="form-group">
                     <input autoFocus className="form-control" type="text" name="username" placeholder="Username"/>

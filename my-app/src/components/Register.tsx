@@ -17,7 +17,7 @@ export default function Register(props: Props){
         <>
             <div className="form-style flex-col items-center">
                 <form ref={formRef} action="/register" method="post">
-                    <h2 className="text-3xl">Register</h2>
+                    <h2 className="text-3xl max-[600px]:text-2xl m-0 mb-4 mt-3">Register</h2>
                     <CSRFToken />
                     <div className="form-group">
                         <input className="form-control" autoFocus type="text" name="username" placeholder="Username"/>
