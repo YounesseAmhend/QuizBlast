@@ -28,7 +28,7 @@ export default function Profile(props: Props){
                 <div  className= " bg-neutral-300 fixed rounded shadow-lg p-4 right-0 py-2 mt-8 mr-24 max-[600px]:mr-20">
                     <div className="mb-2 cursor-pointer hover:text-zinc-400">{data.username}</div>
                     <div className="mb-2 cursor-pointer hover:text-zinc-400">Settings</div>
-                    <div className="cursor-pointer hover:text-red-600" onClick={logout}>Logout</div>
+                    <a href="/" className="cursor-pointer hover:text-red-600" onClick={logout}>Logout</a>
                 </div>
             }
             <div className="cursor-pointer flex items-center justify-center w-12 h-12  shadow-md">
