@@ -4,6 +4,7 @@ import { useFetch } from "../ts/hooks";
 import Loading from "../ts/components/loading";
 
 interface Props {
+    visible: boolean,
     goView(): void,
     setId(par: number): void, 
 }
@@ -36,12 +37,14 @@ export default function Home(props: Props) {
     }
 
     return (
+        <>
+        {props.visible &&
         <Suspense fallback={<Loading loaded={false} />}>
             <InfiniteScroll
                 loadMore={getMore}
                 hasMore={hasMore.current }
             >
-                <div onScrollCapture={() => {}} className="quiz-container mb-2">
+                <div onScrollCapture={() => {}} className="quiz-container mb-4 ">
                     {quizs?.map(function (quiz: Quiz) {
                         return (
                             <Quiz
@@ -58,5 +61,7 @@ export default function Home(props: Props) {
             </InfiniteScroll>
             <Loading loaded={loaded}/>
         </Suspense>
+        }
+        </>
     );
 }

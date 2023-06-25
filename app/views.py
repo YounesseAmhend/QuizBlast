@@ -91,10 +91,17 @@ def quizs(request):
         quiz_list = Quiz.objects.order_by('id')[start_index:end_index]
         serialized_quizzes = [quiz.serialize() for quiz in quiz_list]
 
+        if len(serialized_quizzes) < 20:
+            error_response = {
+                "quizs": serialized_quizzes,
+                "error": "No quizzes available for the requested page number.",
+            }
+            return JsonResponse(error_response, status=404)
+
         return JsonResponse(serialized_quizzes, safe=False)
 
-    return JsonResponse({"error": "Invalid request method"}, status=405)
-
+def get_username(request):
+    return JsonResponse({"username" : request.user.username}, safe=False)
 
 def quiz_id(request, id):
     if request.method == 'GET':
@@ -108,9 +115,11 @@ def quiz_id(request, id):
                 "options":[option.serialize() for option in options],
                 })
         return JsonResponse({"quiz":quiz.serialize(), "questions":fullQuest})
+    
 def display_quiz(request, id):
     if request.method == "GET":
         return render(request, "index.html")
+    
 # login logout register
 def register(request):
     if request.method == "POST":

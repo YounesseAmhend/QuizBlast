@@ -110,10 +110,8 @@ function App() {
         newDisplay={displayNew}
         loginDisplay={displayLogin}
         registerDisplay={displayRegister}
-      />
-      {(display.home && loaded) && (
-        <Home goView={displayView} setId={setId} />
-      )}
+      />        
+      <Home goView={displayView} setId={setId} visible={display.home} />
       {display.new && (
         <QuizForm goHome={displayHome} />
       )}

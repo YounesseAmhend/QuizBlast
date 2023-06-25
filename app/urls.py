@@ -20,5 +20,7 @@ urlpatterns = [
     # route to get quiz
     path("q/<int:id>", views.quiz_id, name="quiz_id"),
     
-    path("quiz/<int:id>", views.display_quiz, name="display_quiz")
+    path("quiz/<int:id>", views.display_quiz, name="display_quiz"),
+    
+    path("user/username", views.get_username, name="username"),
 ]

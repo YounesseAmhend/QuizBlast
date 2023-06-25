@@ -2,13 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Press+Start+2P&display=swap');
 
 .navbar-custom{
-  display: flex;
-  justify-content: center;
-  gap:35px;
-  padding:25px;
   background-color: rgb(39, 48, 56);
-  font-weight: 500;
-  margin-bottom: 20px;
+  padding:21px;
+  font-size: 17px;
 }
 #quiz-form-container{
   height: 1200px;
@@ -35,9 +31,6 @@
     padding: 10px;
     transition: 0.25s ease;
     text-align: center;
-  }
-  .navbar-custom{
-    font-size:17px;
   }
 }
 .list{
@@ -103,9 +96,9 @@
     transition: 0.25s ease;
   }
   .navbar-custom{
-    font-size:12px;
-    padding:15px;
+    font-size: 12px;
   }
+
 }
 .quizname{
   background:-webkit-linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
@@ -280,12 +273,6 @@
 }
 .madeBy{
   color: rgb(199, 199, 199);
-}
-.content-container-nav{
-  width: 95%;
-  display: flex;
-  justify-content: space-between;
-  
 }
 .quiz-form{
   width: 80%;

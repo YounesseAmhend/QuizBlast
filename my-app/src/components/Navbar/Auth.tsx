@@ -8,7 +8,7 @@ export default function Auth(props: Props){
         <>
             {props.is_authenticated && 
                 <>
-                    <div className="nav-link-custom cursor-pointer" onClick={props.newDisplay} >New Quiz</div>
+                    <div className="nav-link-custom cursor-pointer self-center" onClick={props.newDisplay} >New Quiz</div>
                 </>
             }
         </>

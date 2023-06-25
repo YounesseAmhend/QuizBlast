@@ -38,6 +38,7 @@ export default function QuizForm(props: Props){
             }
           }
         }
+
       }
       
     const [oldInput, setOldInput] = useState("")

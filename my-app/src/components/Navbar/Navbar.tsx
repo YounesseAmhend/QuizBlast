@@ -12,11 +12,11 @@ interface Props {
 export default function Navbar(props: Props) {
     const { is_authenticated } = props
     return (
-        <div className="navbar-custom">
+        <div className="navbar-custom mb-4 font-medium flex justify-center items-center max-[600px]:text-xs">
             {is_authenticated !== undefined &&
-                <div className="content-container-nav">
+                <div className="flex justify-between w-full max-[600px]:px-0 min-[600px]:px-5">
                     <div className="center-flex">
-                        <div className="nav-link-custom cursor-pointer" id="home" onClick={props.homeDisplay}>Home</div>
+                        <div className="pl-3 nav-link-custom cursor-pointer py-1 self-center " id="home" onClick={props.homeDisplay}>Home</div>
                         <Auth is_authenticated={is_authenticated} newDisplay={props.newDisplay} />
                     </div>
                     <Unkn is_authenticated={is_authenticated} loginDisplay={props.loginDisplay} registerDisplay={props.registerDisplay} logout={logout}/>

@@ -71,9 +71,8 @@ export function useFetch<T>(link: string, init?: T, method: method = 'GET', requ
                     
                 }
                 else{
-
+                    setData((old:any)=>[...old,...result.quizs])
                     setError(result.error);
-                    
                     hasMore.current = false;
                     setLoaded(true)
                     console.log("Enough");
@@ -88,10 +87,11 @@ export function useFetch<T>(link: string, init?: T, method: method = 'GET', requ
             const fetchdata = async () => {
                 await fetch(link)
                 .then(response =>{
-                    console.log(response)
+                    
                     return response.json()
                 })
                 .then((result)=>{
+                    console.log(result)
                     setData(result)
                     setLoaded(true)
                 })
@@ -99,7 +99,7 @@ export function useFetch<T>(link: string, init?: T, method: method = 'GET', requ
             }   
 
             fetchdata()
-    }
+        }
     },[])
     
     return {data, loaded, error, hasMore, fetchMore}
