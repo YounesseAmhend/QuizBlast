@@ -38,7 +38,7 @@
         },
         "panel": "shared",
         "showReuseMessage": true,
-        "clear": true
+        "clear": true,
       },
       "problemMatcher": []
     },
@@ -53,7 +53,8 @@
         },
         "panel": "new",
         "reveal": "always",
-        "echo": true
+        "echo": true,
+        "clear": true,
       },
       "problemMatcher": []
     }
