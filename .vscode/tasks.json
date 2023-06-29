@@ -30,7 +30,11 @@
     {
       "label": "Start App",
       "type": "shell",
-      "command": "cd my-app && npm start; python manage.py runserver",
+      "dependsOn": [
+        "cd my-app && npm start",
+        "python manage.py runserver"
+      ],
+      "command": "echo 'App started successfully. Press Enter to exit.' && read",
       "presentation": {
         "group": {
           "kind": "build",
@@ -38,7 +42,7 @@
         },
         "panel": "shared",
         "showReuseMessage": true,
-        "clear": true,
+        "clear": true
       },
       "problemMatcher": []
     },
@@ -54,7 +58,7 @@
         "panel": "new",
         "reveal": "always",
         "echo": true,
-        "clear": true,
+        "clear": true
       },
       "problemMatcher": []
     }
