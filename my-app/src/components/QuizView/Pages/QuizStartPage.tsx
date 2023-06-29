@@ -4,11 +4,13 @@ interface Props {
  quizname: string | undefined,
  visible : boolean,
  loaded : boolean,
+ userId: number,
  startQuiz():void,
+ displayUser(id: number): void,
  questionLength : number | undefined,
 }
 export default function QuizStart(props: Props) {
-    const {quizname, visible, loaded, startQuiz, madeBy, questionLength} = props
+    const {quizname, visible, loaded, startQuiz, displayUser, madeBy, questionLength, userId} = props
     return (
         <>
             {(visible && loaded) && <div className="flex justify-center">
@@ -20,7 +22,7 @@ export default function QuizStart(props: Props) {
                         <div onClick={startQuiz} className="bg-blue-500 text-white rounded-md start-btn font-semibold cursor-pointer">Start</div>
                     </div>
                     <div className="flex justify-center"><div className="m-3 font-medium">{questionLength} Questions</div></div>
-                    <div className="flex justify-center"><div className="pb-2 pt-1 text-sm rounded-t-md px-1 border-x border-t border-gray-300 font-medium text-gray-400">Made by <span className="italic font-semibold text-gray-500 cursor-pointer">{madeBy}</span></div></div>
+                    <div className="flex justify-center"><div className="pb-2 pt-1 text-sm rounded-t-md px-1 border-x border-t border-gray-300 font-medium text-gray-400">Made by <span onClick={()=>displayUser(userId)} className="italic font-semibold text-gray-500 cursor-pointer">{madeBy}</span></div></div>
                 </div>
             </div>}
         </>

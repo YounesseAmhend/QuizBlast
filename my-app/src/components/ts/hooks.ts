@@ -64,14 +64,14 @@ export function useFetch<T>(link: string, init?: T, method: method = 'GET', requ
 
                     console.log(data)
 
-                    setData((old:any)=>[...old,...result])
+                    setData((old:T[])=>[...old,...result as T[]])
                     
                     setLoaded(true)
                     
                     
                 }
                 else{
-                    setData((old:any)=>[...old,...result.quizs])
+                    setData((old:T[])=>[...old,...result.quizs])
                     setError(result.error);
                     hasMore.current = false;
                     setLoaded(true)

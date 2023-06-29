@@ -1,0 +1,61 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "command": "cd my-app && npm start",
+      "presentation": {
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "panel": "dedicated",
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "command": "python manage.py runserver",
+      "presentation": {
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "panel": "dedicated",
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start App",
+      "type": "shell",
+      "command": "cd my-app && npm start; python manage.py runserver",
+      "presentation": {
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build and Deploy",
+      "type": "shell",
+      "command": "cd my-app && npm run build && cd .. && git add . && read -p 'Enter commit message: ' message && git commit -m \"$message\" && git push",
+      "presentation": {
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "panel": "new",
+        "reveal": "always",
+        "echo": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

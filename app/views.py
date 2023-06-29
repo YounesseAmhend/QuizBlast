@@ -50,7 +50,7 @@ def add_question(request):
             return JsonResponse({"error":"a Question should have some content"}, status=400)
         
         quiz = Quiz.objects.get(pk=data.get("quiz_id"))
-        question = Question.objects.create(content=data.get("content"),timer = data.get("timer"),quiz=quiz)
+        question = Question.objects.create(content=data.get("content"), information=data.get("quote"), timer = data.get("timer"),quiz=quiz)
         
         for option in data.get("option"):
             Option.objects.create(content=option["text"], correct=option["correct"], question=question)
@@ -67,8 +67,9 @@ def add_question(request):
         question = Question.objects.get(pk = data.get("question_id"))
         question.content = data.get("content")
         question.timer = data.get("timer")
-        
+        question.information = data.get("quote")
         question.save()
+        
         Option.objects.filter(question=question).delete()
         for option in data.get("options"):
             Option.objects.create(content=option["text"], correct=option["correct"], question=question)
@@ -100,8 +101,12 @@ def quizs(request):
 
         return JsonResponse(serialized_quizzes, safe=False)
 
+@login_required
 def get_username(request):
-    return JsonResponse({"username" : request.user.username}, safe=False)
+    return JsonResponse({
+        "id": request.user.id,
+        "username" : request.user.username
+        }, safe=False)
 
 def quiz_id(request, id):
     if request.method == 'GET':
@@ -114,8 +119,31 @@ def quiz_id(request, id):
                 "question":question.serialize(),
                 "options":[option.serialize() for option in options],
                 })
+        
         return JsonResponse({"quiz":quiz.serialize(), "questions":fullQuest})
-    
+@csrf_exempt
+def get_user_quizs(request, id):
+    if request.method == "POST":
+        quiz_num = 20
+        page_number = loads(request.body).get("page_number")
+
+        start_index = (page_number - 1) * quiz_num
+        end_index = start_index + quiz_num
+
+        quiz_list = Quiz.objects.filter(user=id).order_by('id')[start_index:end_index]
+        serialized_quizzes = [quiz.serialize() for quiz in quiz_list]
+
+        if len(serialized_quizzes) < 20:
+            error_response = {
+                "quizs": serialized_quizzes,
+                "error": "No More quizzes available for the requested page number.",
+            }
+            return JsonResponse(error_response, status=404)
+
+        return JsonResponse(serialized_quizzes, safe=False)
+    elif request.method == "GET":
+        return render(request, "index.html")
+
 def display_quiz(request, id):
     if request.method == "GET":
         return render(request, "index.html")

@@ -23,4 +23,6 @@ urlpatterns = [
     path("quiz/<int:id>", views.display_quiz, name="display_quiz"),
     
     path("user/username", views.get_username, name="username"),
+    
+    path("user/<int:id>", views.get_user_quizs, name="user_quizs"),
 ]

@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkmy_app=self.webpackChunkmy_app||[]).push([[443],{443:function(e,n,s){s.r(n),s.d(n,{default:function(){return r}});var i=s(184);function r(e){var n=e.id,s=e.name,r=e.username;return(0,i.jsxs)("div",{className:"quiz-element cursor-pointer p-3",onClick:function(){return function(n){e.goView(),e.setId(n)}(n)},children:[(0,i.jsx)("div",{className:"title",children:s}),(0,i.jsxs)("div",{className:"madeBy",children:["By ",r]})]},n)}}}]);
-//# sourceMappingURL=443.1bd6198d.chunk.js.map

@@ -4,9 +4,10 @@ import { useFetch } from "../ts/hooks";
 import Loading from "../ts/components/loading";
 
 interface Props {
+    id: number,
     visible: boolean,
+    displayUser(id: number): void;
     goView(): void,
-    displayUser(id: number): void,
     setId(id: number): void, 
 }
 
@@ -17,11 +18,11 @@ interface Quiz {
     name: string;
 }
 
-const Quiz = lazy(() => import("./Quiz"));
+const Quiz = lazy(() => import("../QuizView/Quiz"));
 
 export default function Home(props: Props) {
     const pageCount = useRef(0)
-    const { data: quizs, loaded, fetchMore, error ,hasMore} = useFetch<Quiz[]>("/quiz", [], "POST");
+    const { data: quizs, loaded, fetchMore, hasMore} = useFetch<Quiz[]>(`/user/${props.id}`, [], "POST");
     const firstime = useRef(true)
 
     const getMore = async () => {
@@ -42,20 +43,21 @@ export default function Home(props: Props) {
         <>
         {props.visible &&
         <Suspense fallback={<Loading loaded={false} />}>
+            {(quizs.length > 0) && <div className="text-center text-3xl mb-11 mt-4">{quizs[0].username}</div>}
             <InfiniteScroll
                 loadMore={getMore}
                 hasMore={hasMore.current }
-            >
+            >   
                 <div onScrollCapture={() => {}} className="quiz-container mb-4 ">
                     {quizs?.map(function (quiz: Quiz) {
                         return (
                             <Quiz
+                                displayUser={props.displayUser}
+                                userId={quiz.userId}
                                 goView={props.goView}
                                 setId={props.setId}
                                 key={quiz.id}
                                 id={quiz.id}
-                                displayUser={props.displayUser}
-                                userId={quiz.userId}
                                 username={quiz.username}
                                 name={quiz.name}
                             />

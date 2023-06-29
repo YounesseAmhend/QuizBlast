@@ -12,6 +12,7 @@ interface Option{
 }
 interface Quiz {
     id: number;
+    userId: number;
     name: string;
     username: string;
 }
@@ -42,6 +43,7 @@ interface FullQuiz{
 }
 interface Props{
     id:number,
+    displayUser(id: number): void,
 }
 const PAGES = {
     START:"startView",
@@ -74,8 +76,10 @@ export default function QuizDisplay(props: Props){
         <>
             <Loading loaded={loaded}/>
             <QuizStart 
+              userId={(Quiz as FullQuiz)?.quiz.userId}
               madeBy={(Quiz as FullQuiz)?.quiz.username}
               visible={pages.startView} 
+              displayUser={props.displayUser}
               loaded={loaded} 
               startQuiz={() => navigateTo(PAGES.PAGE)} 
               quizname={Quiz?.quiz.name} 

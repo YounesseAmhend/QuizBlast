@@ -3,6 +3,8 @@ interface Props {
     is_authenticated: boolean,
     loginDisplay(): void,
     registerDisplay(): void,
+    displaySettings(): void,
+    displayUser(id: number): void,
     logout(): void
 }
 
@@ -16,7 +18,7 @@ export default function Unkn(props: Props) {
                 </div>
                 :
                 <div className="flex justify-center">
-                    <Profile logout={props.logout} />
+                    <Profile  displaySettings={props.displaySettings} displayUser={props.displayUser} logout={props.logout} />
                     {/* <a className="nav-link-custom cursor-pointer" id="logout" href="/" onClick={props.logout}>Log Out</a> */}
                 </div>
             }

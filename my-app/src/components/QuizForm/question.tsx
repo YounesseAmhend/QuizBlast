@@ -1,4 +1,5 @@
 import { QuestionInput } from './QuestionInput';
+import ExplicationInput from './ExplicationInput';
 import Button from 'react-bootstrap/Button';
 import { useState, useRef } from 'react';
 import Options from './Options';
@@ -26,14 +27,18 @@ interface Question {
     content: string,
     options: Option[],
     timer: number,
+    quote?: string,
 }
 export default function QuestionForm(props: Props) {
     const VALIDATIONS = {
         OPTIONS_LIMIT : 4,
         OPTIONS_MAX_LENGTH: 100,
         OPTIONS_MIN : 1,
+        OPTIONS_MAX_EXPLINATION_LENGTH: 500,
     }
     const ID_LENGTH = 6
+    
+    const [text, setText] = useState('');
     const [time, setTime] = useState<number>(0)
     const InputQ = useRef<HTMLInputElement>(null)
     const [questions, setQuestions] = useState<Question[]>([])
@@ -48,7 +53,7 @@ export default function QuestionForm(props: Props) {
     // functions
     function UpdateQuestion() {
         let question = questions[currentCount - 1];
-
+        question.quote = text
         question.content = inputs.question;
         question.options = options;
         question.timer = time;
@@ -64,6 +69,7 @@ export default function QuestionForm(props: Props) {
         if (inputs.option !== "" && options.length < VALIDATIONS.OPTIONS_LIMIT && inputs.option.length < VALIDATIONS.OPTIONS_MAX_LENGTH && isOnlySpace(inputs.option)) {
             setOptions([...options, { id: makeid(ID_LENGTH), text: inputs.option, correct: false }])
         }
+        setText("")
         setInputs({ question: inputs.question, option: "" })
     }
 
@@ -103,19 +109,22 @@ export default function QuestionForm(props: Props) {
             let optionsToSubmit = options.map(({ id, ...rest }) => rest);
             let input = inputs.question
             let timer = time
+            let quote = text
             setInputs({ question: "", option: "" })
             setOptions([])
+            setText("")
 
             setVisible(false)
             window.scrollTo(0, 0);
 
-            let question_id: number | undefined = await subQuestion(quiz_id, input, timer, optionsToSubmit)
+            let question_id: number | undefined = await subQuestion(quiz_id, input, quote, timer, optionsToSubmit)
             setCurrentCount(currentCount + 1)
-            setQuestions([...questions, { count: questions.length + 1, quiz_id: quiz_id, options: options, id: question_id, content: input, timer:timer  }])
+            setQuestions([...questions, { count: questions.length + 1, quiz_id: quiz_id, options: options, id: question_id, content: input, timer:timer, quote:text  }])
         }
         else if (options.length > VALIDATIONS.OPTIONS_MIN && inputs.question.length > 0 && isSelect(options) && questions.length > currentCount) {
             let question = getQuestion(currentCount + 1, questions)
             setTime(question.timer)
+            setText(question.quote || "")
             if (changing) {
                 UpdateQuestion();
             }
@@ -132,6 +141,7 @@ export default function QuestionForm(props: Props) {
             setOptions([])
             setInputs({ question: "", option: "" })
             setCurrentCount(currentCount + 1)
+            setText("")
             
         }
         SetChanged(false)
@@ -147,6 +157,7 @@ export default function QuestionForm(props: Props) {
             setOptions(question.options)
             SetChanged(false)
             setTime(question.timer)
+            setText(question.quote || "")
             setInputs({ question: question.content, option: "" })
         }
         else {
@@ -172,11 +183,12 @@ export default function QuestionForm(props: Props) {
                         
                         <div className='quiz-form'>
                             <QuestionInput Ref={InputQ} value={inputs.question} changeInputQuestion={changeInputQuestion} changeFocus={changeFocus} />
-                            <div className='all-options'>
+                            <div className='all-options mb-3'>
                                 <QuestionHead add={add} />
                                 <Options remove={removeOption} Options={options} corrected={corrected} />
                             </div>
                             <Input visible={visible} addOptionKey={addOptionKey} input={inputs.option} changeInput={changeInput} />
+                            <ExplicationInput text={text} setText={setText} />
                             <div className='space-between'>
                                 <div>
                                     <Button className="bg-blue-600" id="back-btn" onClick={back} variant="primary">

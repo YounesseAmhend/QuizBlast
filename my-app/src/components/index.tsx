@@ -4,3 +4,5 @@ export {default as Navbar} from "./Navbar/Navbar"
 export {default as Home} from "./QuizView/Quizview"
 export {default as QuizDisplay} from './QuizView/QuizDisplay'
 export {default as QuizForm} from './QuizForm/Quizform'
+export {default as Userview} from './User/Userview'
+export {default as Settings} from './User/Settings'

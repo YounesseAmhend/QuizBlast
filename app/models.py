@@ -14,6 +14,7 @@ class Quiz(models.Model):
     def serialize(self):
         return {
             "id":self.id,
+            "userId": self.user.id,
             "name": self.name,
             "username": self.user.username,
         }
@@ -24,7 +25,7 @@ class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='user_post', null=False)
     timer = models.IntegerField(default=0, null=True)
     score = models.IntegerField(null=True)
-    information = models.TextField(blank=True, null=True)
+    information = models.TextField(blank=True, null=True, default="")
     
     def serialize(self):
         return {
@@ -32,6 +33,7 @@ class Question(models.Model):
             "content": self.content,
             "timer" : self.timer,
             "score": 1,
+            "quote": self.information,
         }
 
 class Option(models.Model):

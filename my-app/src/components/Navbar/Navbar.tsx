@@ -6,8 +6,11 @@ interface Props {
     is_authenticated: boolean | undefined;
     homeDisplay(): void,
     newDisplay(): void,
+    displayUser(id: number): void,
+    displaySettings(): void,
+
     loginDisplay(): void,
-    registerDisplay(): void
+    registerDisplay(): void,
 }
 export default function Navbar(props: Props) {
     const { is_authenticated } = props
@@ -19,7 +22,7 @@ export default function Navbar(props: Props) {
                         <div className="pl-3 nav-link-custom cursor-pointer py-1 self-center " id="home" onClick={props.homeDisplay}>Home</div>
                         <Auth is_authenticated={is_authenticated} newDisplay={props.newDisplay} />
                     </div>
-                    <Unkn is_authenticated={is_authenticated} loginDisplay={props.loginDisplay} registerDisplay={props.registerDisplay} logout={logout}/>
+                    <Unkn  displaySettings={props.displaySettings} displayUser={props.displayUser} is_authenticated={is_authenticated} loginDisplay={props.loginDisplay} registerDisplay={props.registerDisplay} logout={logout}/>
                 </div>
             }
         </div>

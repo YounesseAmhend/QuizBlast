@@ -18,6 +18,7 @@ interface Question {
     content: string,
     options: Option[],
     timer: number,
+    quote?: string,
 }
 interface optionSub{
     text: string;
@@ -69,7 +70,7 @@ export async function subQuiz(input:string):Promise<number>{
     return id
 }
 
-export async function subQuestion(quiz_id:number, input:string, timer:number, optionsToSub:optionSub[]){
+export async function subQuestion(quiz_id: number, input: string, quote: string, timer: number, optionsToSub: optionSub[]){
     let question_id : number | undefined = undefined
     if (optionsToSub.length > 0 && input !== ""){
         await fetch("/question",{
@@ -79,6 +80,7 @@ export async function subQuestion(quiz_id:number, input:string, timer:number, op
                     "content": input,
                     "option": optionsToSub,
                     "timer": timer,
+                    "quote": quote,
                 })
             })
             .then((response)=>response.json())
@@ -125,11 +127,12 @@ export async function subUpQuestion(question: Question){
             question_id: question.id,
             content: question.content,
             options: question.options,
-            timer: question.timer
+            timer: question.timer,
+            quote: question.quote,
         })
     })
 }
-export async function UpQuiz(input:string, id:number|undefined){
+export async function UpQuiz(input: string, id: number | undefined){
     if(id)
     await fetch("/new",{
         method: "PUT",
