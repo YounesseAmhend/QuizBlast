@@ -33,8 +33,9 @@ export default function QuestionForm(props: Props) {
     const VALIDATIONS = {
         OPTIONS_LIMIT : 4,
         OPTIONS_MAX_LENGTH: 100,
-        OPTIONS_MIN : 1,
+        OPTIONS_MIN : 2,
         OPTIONS_MAX_EXPLINATION_LENGTH: 500,
+        QUESTION_MIN_LENGTH: 5,
     }
     const ID_LENGTH = 6
     
@@ -102,7 +103,7 @@ export default function QuestionForm(props: Props) {
         event.currentTarget.blur();
         InputQ.current?.focus()
         const changing =  changed || !CompareOptions(questions[currentCount - 1].options, options) || questions[currentCount - 1].content !== inputs.question || time !== questions[currentCount - 1].timer
-        if (options.length > VALIDATIONS.OPTIONS_MIN && inputs.question.length > 0 && isSelect(options) && questions.length === currentCount - 1) {
+        if (options.length > VALIDATIONS.OPTIONS_MIN && inputs.question.length > VALIDATIONS.QUESTION_MIN_LENGTH && isSelect(options) && questions.length === currentCount - 1) {
             setVisible(false)
             
             let quiz_id = props.quiz_id
@@ -121,7 +122,7 @@ export default function QuestionForm(props: Props) {
             setCurrentCount(currentCount + 1)
             setQuestions([...questions, { count: questions.length + 1, quiz_id: quiz_id, options: options, id: question_id, content: input, timer:timer, quote:text  }])
         }
-        else if (options.length > VALIDATIONS.OPTIONS_MIN && inputs.question.length > 0 && isSelect(options) && questions.length > currentCount) {
+        else if (options.length > VALIDATIONS.OPTIONS_MIN && inputs.question.length > VALIDATIONS.QUESTION_MIN_LENGTH && isSelect(options) && questions.length > currentCount) {
             let question = getQuestion(currentCount + 1, questions)
             setTime(question.timer)
             setText(question.quote || "")

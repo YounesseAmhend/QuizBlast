@@ -22,6 +22,7 @@ interface Props {
   timeIsOut:boolean;
   options: Option[];
   setChosed(value: boolean): void;
+  setVisibleQuote(value: boolean): void;
   setSelectedOption: React.Dispatch<React.SetStateAction<number | undefined>>
   setScore: React.Dispatch<React.SetStateAction<number>>
   setCorrectQuestions: React.Dispatch<React.SetStateAction<number>>
@@ -34,6 +35,7 @@ export default function Options(props: Props) {
   function showResult(id: number, correct: boolean, content: string) {
     if (props.selectedOption === undefined) {
       props.setChosed(true)
+      props.setVisibleQuote(true)
       props.setSelectedOption(id)
       if (correct) {
         props.setScore(score => score + 100)
@@ -55,7 +57,7 @@ export default function Options(props: Props) {
     }
   },[props.timeIsOut])
   return (
-    <div className="options-container m-3 grid-cols-2 grid max-[600px]:grid-cols-1">
+    <div className="m-3 grid-cols-2 grid max-[600px]:grid-cols-1">
       {props.options?.map(option => {
         return (
           <div key={option.id}>

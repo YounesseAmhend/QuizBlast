@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {Options, NextBtn, Header, Title, Quote} from "./components/index"
 
 interface Option {
@@ -14,7 +14,7 @@ interface Quiz {
 interface Question {
     count: number,
     quiz_id: number,
-    id: number | undefined,
+    id: number ,
     content: string,
     options: Option[],
     quote: string,
@@ -58,13 +58,16 @@ export default function QuizPage(props: Props) {
     const [selectedOption, setSelectedOption] = useState<number | undefined>(undefined)
     const [halfResult, setResult] = useState<half>();
     const [timeIsOut, setTimeIsOut] = useState(false);
+    const [visibleQuote, setVisibleQuote] = useState(false);
     useEffect(()=>{
-        if(visible)
-        setResult({
-            count:pageCount,
-            Quesiton:Quiz?.questions[pageCount-1].question.content,
-            quote:Quiz?.questions[pageCount-1].question.quote,
-        })
+        if(visible){
+            console.log(Quiz)
+            setResult({
+                count:pageCount,
+                Quesiton:Quiz?.questions[pageCount-1].question.content,
+                quote:Quiz?.questions[pageCount-1].question.quote,
+            })
+        }
     },[pageCount, visible])
     console.log(halfResult);
     
@@ -73,12 +76,12 @@ export default function QuizPage(props: Props) {
             {visible &&
                 <div className="flex justify-center">
                     <div id="page-container" className="w-4/5 page-container">
-                        <Header TimeIsOut={timeIsOut} setTimeIsOut={setTimeIsOut} setChosed={setChosed} paused={chosed} timer={Quiz?.questions[pageCount-1]?.question.timer} quizname={Quiz.quiz.name} pageCount={pageCount} score={score} questionLength={Quiz?.questions.length}/>
+                        <Header setVisibleQuote={setVisibleQuote} id={Quiz?.questions[pageCount-1].question.id} TimeIsOut={timeIsOut} setTimeIsOut={setTimeIsOut} setChosed={setChosed} paused={chosed} timer={Quiz?.questions[pageCount-1].question.timer} quizname={Quiz.quiz.name} pageCount={pageCount} score={score} questionLength={Quiz?.questions.length}/>
                         <Title title={Quiz.questions[pageCount-1].question.content}/>
-                        <Options timeIsOut={timeIsOut} halfResult={halfResult!} setResults={setResults} setCorrectQuestions={setCorrectQuestions} setScore={setScore} selectedOption={selectedOption} setSelectedOption={setSelectedOption} options={Quiz?.questions[pageCount-1]?.options} setChosed={setChosed}/>
-                        <NextBtn questionLength={Quiz.questions.length} setVisible={setVisible} setSelectedOption={setSelectedOption} setChosed={setChosed} pageCount={pageCount} setPageCount={setPageCount} visible={chosed}/>
-
-                        <Quote text={Quiz.questions[pageCount-1]?.question.quote}/>
+                        <Options setVisibleQuote={setVisibleQuote} timeIsOut={timeIsOut} halfResult={halfResult!} setResults={setResults} setCorrectQuestions={setCorrectQuestions} setScore={setScore} selectedOption={selectedOption} setSelectedOption={setSelectedOption} options={Quiz?.questions[pageCount-1]?.options} setChosed={setChosed}/>
+                        <NextBtn setTimeIsOut={setTimeIsOut} setVisibleQuote={setVisibleQuote} questionLength={Quiz.questions.length} setVisible={setVisible} setSelectedOption={setSelectedOption} setChosed={setChosed} pageCount={pageCount} setPageCount={setPageCount} visible={chosed}/>
+ 
+                        <Quote visible={visibleQuote} text={Quiz.questions[pageCount-1]?.question.quote}/>
                     </div>
                 </div>
             }

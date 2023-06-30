@@ -4,13 +4,17 @@ import  {useState} from "react"
 import QuestionForm from './question';
 import { subQuiz } from '../ts/staticFunctions';
 import {UpQuiz, isOnlySpace } from '../ts/staticFunctions';
-
+import Loading from '../ts/components/loading';
 
 interface Props {
     goHome():void,
 }
 export default function QuizForm(props: Props){
+    const VALIDATION = {
+        input: 25,
+    }
     // hooks
+    const [loading, setLoading] =  useState<boolean>(false)
     const [input, setInput] = useState("")
     function changeInput(e:React.ChangeEvent<HTMLInputElement>){
         setInput(e.target.value);
@@ -24,8 +28,9 @@ export default function QuizForm(props: Props){
     })
     async function addQuiz(event: React.FormEvent) {
         event.preventDefault();
-        if (input !== "" && input.length < 22 && isOnlySpace(input)) {
+        if (input !== "" && input.length < VALIDATION.input && isOnlySpace(input)) {
           if (!visible.isback) {
+            setLoading(true);
             const id = await subQuiz(input);
             setId(id);
             setVisible({ quiz: false, question: true, isback: false });
@@ -57,6 +62,9 @@ export default function QuizForm(props: Props){
         <>
         { 
         visible.quiz && <div>
+            <Loading loaded={!loading}/>
+            {(!loading) &&
+            <>
             <h2 className='text-4xl max-[600px]:text-3xl font-medium'>Quiz</h2>
             <div id='quiz-form-container' >
                 
@@ -74,7 +82,7 @@ export default function QuizForm(props: Props){
                     </Button>}
                     </div>
                 </Form>
-            </div>
+            </div></>}
         </div>
         }
         <QuestionForm setSave={setSave} onSave={saveQ} visible={visible.question} onBack={goBack} quiz_id={quiz_id}/>

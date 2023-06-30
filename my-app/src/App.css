@@ -136,9 +136,6 @@
   display: flex;
   align-self: center;
 }
-.options-container{
-  margin-inline:10px;
-}
 .w95{
   width: 99%;
 }

@@ -89,7 +89,7 @@ def quizs(request):
         start_index = (page_number - 1) * quiz_num
         end_index = start_index + quiz_num
 
-        quiz_list = Quiz.objects.order_by('id')[start_index:end_index]
+        quiz_list = Quiz.objects.order_by('id').reverse()[start_index:end_index]
         serialized_quizzes = [quiz.serialize() for quiz in quiz_list]
 
         if len(serialized_quizzes) < 20:

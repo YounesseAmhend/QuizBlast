@@ -1,6 +1,8 @@
 import React from "react";
 interface Props{
     visible: boolean;
+    setVisibleQuote:React.Dispatch<React.SetStateAction<boolean>>;
+    setTimeIsOut:React.Dispatch<React.SetStateAction<boolean>>;
     setPageCount:React.Dispatch<React.SetStateAction<number>>;
     setChosed:React.Dispatch<React.SetStateAction<boolean>>;
     setSelectedOption:React.Dispatch<React.SetStateAction<number|undefined>>
@@ -10,7 +12,7 @@ interface Props{
 }
 
 export default function NextBtn(props: Props){
-    const { visible, setPageCount, pageCount, setChosed, setSelectedOption, questionLength, setVisible } = props
+    const { visible, setPageCount, pageCount, setChosed, setSelectedOption, setVisibleQuote, setTimeIsOut, questionLength, setVisible } = props
     function nextPage(){
         console.log("alert")
         if (questionLength === pageCount){
@@ -19,6 +21,8 @@ export default function NextBtn(props: Props){
         }
         setPageCount(pageCount+1)
         setChosed(false)
+        setVisibleQuote(false)
+        setTimeIsOut(false)
         setSelectedOption(undefined)
         
     }
