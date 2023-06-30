@@ -18,6 +18,8 @@ class Quiz(models.Model):
             "name": self.name,
             "username": self.user.username,
         }
+    def __str__(self):                
+        return self.name
     
 # question have many options
 class Question(models.Model):

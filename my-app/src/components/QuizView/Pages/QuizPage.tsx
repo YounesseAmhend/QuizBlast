@@ -74,7 +74,7 @@ export default function QuizPage(props: Props) {
     return (
         <>
             {visible &&
-                <div className="flex justify-center">
+                <div className="flex justify-center mb-5">
                     <div id="page-container" className="w-4/5 page-container">
                         <Header setVisibleQuote={setVisibleQuote} id={Quiz?.questions[pageCount-1].question.id} TimeIsOut={timeIsOut} setTimeIsOut={setTimeIsOut} setChosed={setChosed} paused={chosed} timer={Quiz?.questions[pageCount-1].question.timer} quizname={Quiz.quiz.name} pageCount={pageCount} score={score} questionLength={Quiz?.questions.length}/>
                         <Title title={Quiz.questions[pageCount-1].question.content}/>
