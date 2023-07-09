@@ -2,6 +2,7 @@ import { lazy, Suspense, useRef } from "react";
 import InfiniteScroll from 'react-infinite-scroller';
 import { useFetch } from "../ts/hooks";
 import Loading from "../ts/components/loading";
+import SearchBar from "../utilities/SearchBar";
 
 interface Props {
     visible: boolean,
@@ -37,11 +38,13 @@ export default function Home(props: Props) {
             console.log("done")
 
     }
+    
 
     return (
         <>
         {props.visible &&
         <Suspense fallback={<Loading loaded={false} />}>
+            <SearchBar />
             <InfiniteScroll
                 loadMore={getMore}
                 hasMore={hasMore.current }

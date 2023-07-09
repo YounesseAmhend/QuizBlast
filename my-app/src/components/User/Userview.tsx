@@ -24,7 +24,13 @@ export default function Home(props: Props) {
     const pageCount = useRef(0)
     const { data: quizs, loaded, fetchMore, hasMore} = useFetch<Quiz[]>(`/user/${props.id}`, [], "POST");
     const firstime = useRef(true)
-
+    /* TODO:
+        1- add a follow button for each user except the current one
+        2- show the follower count 
+        3- show the following count
+        4- add an option for the user to see his favorites 
+        5- add an option for the user to see his liked quizzes
+    */
     const getMore = async () => {
             if(loaded){
                 pageCount.current++;

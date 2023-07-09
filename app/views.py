@@ -1,4 +1,4 @@
-from json import loads
+from json import loads, JSONDecodeError
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
@@ -130,7 +130,7 @@ def get_user_quizs(request, id):
         start_index = (page_number - 1) * quiz_num
         end_index = start_index + quiz_num
 
-        quiz_list = Quiz.objects.filter(user=id).order_by('id')[start_index:end_index]
+        quiz_list = Quiz.objects.filter(user=id).reverse()[start_index:end_index]
         serialized_quizzes = [quiz.serialize() for quiz in quiz_list]
 
         if len(serialized_quizzes) < 20:
@@ -139,7 +139,6 @@ def get_user_quizs(request, id):
                 "error": "No More quizzes available for the requested page number.",
             }
             return JsonResponse(error_response, status=404)
-
         return JsonResponse(serialized_quizzes, safe=False)
     elif request.method == "GET":
         return render(request, "index.html")
@@ -147,6 +146,65 @@ def get_user_quizs(request, id):
 def display_quiz(request, id):
     if request.method == "GET":
         return render(request, "index.html")
+
+@csrf_exempt
+def search_user(request):
+    if request.method == 'POST':
+        try:
+            data = loads(request.body) 
+            username = data.get('username')
+            user_num = 20
+            page_number = data.get('page_number')
+
+            start_index = (page_number - 1) * user_num
+            end_index = start_index + user_num
+            if username:
+                try:
+                    user = User.objects.get(username=username)
+                    serialized_user = user.search_user()
+                    return JsonResponse(serialized_user)
+                except User.DoesNotExist:
+                    return JsonResponse({'error': 'User not found'}, status=404)
+            else:
+                return JsonResponse({'error': 'Username parameter is missing'}, status=400)
+        except JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON payload'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+@csrf_exempt
+def search_quiz(request):
+    if request.method == 'POST':
+        try:
+            data = loads(request.body)
+            quiz_name = data.get('name')
+            if quiz_name:
+                quizzes = Quiz.objects.filter(name__icontains=quiz_name)
+                serialized_quizzes = [quiz.serialize() for quiz in quizzes]
+                return JsonResponse(serialized_quizzes, safe=False)
+            else:
+                return JsonResponse({'error': 'Quiz name parameter is missing'}, status=400)
+        except JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON payload'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+@csrf_exempt
+def autocomplete_quiz(request):
+    if request.method == 'POST':
+        try:
+            data = loads(request.body)
+            quiz_name = data.get('name')
+            if quiz_name:
+                quizzes = Quiz.objects.filter(name__icontains=quiz_name)[:5]
+                serialized_quizzes = [quiz.search_serialize() for quiz in quizzes]
+                return JsonResponse(serialized_quizzes, safe=False)
+            else:
+                return JsonResponse({'error': 'Quiz name parameter is missing'}, status=400)
+        except JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON payload'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+
     
 # login logout register
 def register(request):

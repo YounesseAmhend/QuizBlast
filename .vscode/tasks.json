@@ -16,9 +16,6 @@
         "clear": true
       },
       "problemMatcher": [],
-      "runOptions": {
-        "runOn": "folderOpen"
-      }
 
     }
   ]

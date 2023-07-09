@@ -4,6 +4,12 @@ from django.contrib.auth.models import AbstractUser
 # models
 class User(AbstractUser):
     is_guest = models.BooleanField(default=False)
+    
+    def search_user(self):
+        return {
+            "id":self.id,
+            "username": self.username,
+        }
 
 # quiz have many questions
 class Quiz(models.Model):
@@ -17,6 +23,11 @@ class Quiz(models.Model):
             "userId": self.user.id,
             "name": self.name,
             "username": self.user.username,
+        }
+    def search_serialize(self):
+        return {
+            "id":self.id,
+            "name": self.name,
         }
     def __str__(self):                
         return self.name
@@ -37,12 +48,19 @@ class Question(models.Model):
             "score": 1,
             "quote": self.information,
         }
-
+        
+        
+    def __str__(self):                
+        return self.name
+    
 class Option(models.Model):
     content = models.TextField(blank=True, null=False)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='user_post', null=False)
     correct = models.BooleanField(null=False)
     option_type = models.CharField(max_length=10,default="RADIO")
+    
+    def __str__(self):                
+        return self.name
     
     def serialize(self):
         return {

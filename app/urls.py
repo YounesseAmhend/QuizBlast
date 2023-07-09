@@ -25,4 +25,12 @@ urlpatterns = [
     path("user/username", views.get_username, name="username"),
     
     path("user/<int:id>", views.get_user_quizs, name="user_quizs"),
+    
+    #searching
+    
+    path("user/search", views.search_user, name="user_search"),
+    
+    path("quiz/search", views.search_quiz, name="user_search"),
+    
+    path("quiz/autocomplete", views.autocomplete_quiz, name="quiz_autocomplete"),
 ]

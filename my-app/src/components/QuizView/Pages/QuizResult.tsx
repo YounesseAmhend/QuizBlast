@@ -26,7 +26,10 @@ interface Props{
 export default function QuizResult(props: Props){
     const { visible, score, correctQuestions, questionLength, quizname, result } = props;
     const [animatedValue, setAnimatedValue] = useState<number>(0);
-
+    /* TODO:
+        1- show the user the time he took to finish the quiz
+        2- make leaderbord for each quiz based on the time in seconds with 2 decimals after the point based on the score and the time it took
+    */
     useEffect(() => {
         if (visible) {
             let timer = setTimeout(() => {

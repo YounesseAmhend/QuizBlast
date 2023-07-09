@@ -68,18 +68,17 @@ WSGI_APPLICATION = 'quizblast.wsgi.app'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# To use Neon with Django, you have to create a Project on Neon and specify the project connection settings in your settings.py in the same way as for standalone Postgres.
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'defaultdb',
-        'HOST': 'pg-1254e25b-quizblast.aivencloud.com',
-        'PORT': '13878',
-        'USER': 'avnadmin',
-        'PASSWORD': 'AVNS_7sKIw_q1wGy_iUaIqLE',
-        'OPTIONS': {
-            'sslmode': 'require',
-        }
-    }
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'neondb',
+    'USER': 'younesseamhend2019',
+    'PASSWORD': 'brWxC21peasy',
+    'HOST': 'ep-black-glade-095209-pooler.eu-central-1.aws.neon.tech',
+    'PORT': '5432',
+  }
 }
 
 
@@ -147,7 +146,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000',
-                        'http://127.0.0.1:8000',
                         'http://localhost:3000',
                         'http://172.30.192.1:3000',
                     ]
@@ -160,7 +158,6 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-    'http://127.0.0.1:8000',
     'http://172.30.192.1:3000',
 )
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", "static")

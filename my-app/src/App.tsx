@@ -4,7 +4,7 @@ import {
   Home, Settings
 } from './components/index'
 import { useState, useEffect, useCallback } from "react"
-import { useAuth } from './components/ts/hooks';
+import { useAuth } from './components/ts/states/useAuth';
 
 const PAGES: Pages = {
   HOME: { name: "home", path: "/", auth: false },
@@ -63,13 +63,13 @@ function App() {
     register: false,
     login: false,
   })
-  const navigateTo = useCallback((page: Page) => {
+  const navigateTo = useCallback((page: Page, id: string="") => {
     const updatedDisplay = { ...display };
     for (const key of Object.keys(updatedDisplay)) {
       updatedDisplay[key as keyof Display] = key === page.name;
     }
     if (page.path !== PAGES.VIEW_QUIZ.path) {
-      goToPath(page.path);
+      goToPath(page.path+id);
     }
     setDisplays(updatedDisplay);
   }, [display]);
@@ -99,8 +99,9 @@ function App() {
     , [is_authenticated])
 
   useEffect(() => { if (id && display.view_quiz) { goToPath("/quiz/" + id) } }, [display.view_quiz, id])
-  useEffect(() => { if (userId && display.user_view) { goToPath("/user/" + userId) } }, [display.user_view, userId])
+  useEffect(() => { if (userId && display.user_view) {goToPath("/user/" + userId) } }, [display.user_view, userId])
   function goToPath(pathname: string) {
+    
     window.history.pushState(null, "", pathname);
   }
   function displayHome() {
@@ -116,14 +117,14 @@ function App() {
     navigateTo(PAGES.REGISTER)
   }
   function displayView() {
-    navigateTo(PAGES.VIEW_QUIZ)
+    navigateTo(PAGES.VIEW_QUIZ, String(id))
   }
   function displaySettings() {
     navigateTo(PAGES.USER_SETTINGS)
   }
   function displayUser(id: number) {
     setUserId(id)
-    navigateTo(PAGES.USER_VIEW)
+    navigateTo(PAGES.USER_VIEW, String(id))
   }
   return (
     <>

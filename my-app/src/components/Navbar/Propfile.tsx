@@ -29,7 +29,7 @@ export default function Profile(props: Props){
         <div ref={popupRef}>
             {(visiblePopUp && loaded) &&  
                 <div  className= " border-1 bg-white fixed rounded shadow-lg p-4 right-0 py-2 mt-8 mr-24 max-[600px]:mr-20">
-                    <div onClick={()=>displayUser((data.id as number))} className="mb-2 cursor-pointer hover:text-zinc-600">{data.username}</div>
+                    <div onClick={()=>{displayUser((data.id as number))}} className="mb-2 cursor-pointer hover:text-zinc-600">{data.username}</div>
                     <div onClick={displaySettings} className="mb-2 cursor-pointer hover:text-zinc-600">Settings</div>
                     <a href="/" className="cursor-pointer hover:text-red-600" onClick={logout}>Logout</a>
                 </div>

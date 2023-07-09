@@ -2,40 +2,6 @@ import {useState, useEffect, useRef, useCallback } from "react"
 
 type method = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH'
 
-export function useAuth(){
-
-    const [is_authenticated, setAuthentication] = useState<boolean | undefined>(undefined)
-    const [loaded, setLoaded] = useState(false)
-    const [error, setError] = useState(undefined)
-
-    useEffect(()=>{
-        
-            const isAuthenticateds = async () => {
-
-                await fetch("/auth",{
-                    method: "GET",
-                    })
-
-                    .then((response) => response.json())
-
-                    .then((result) => {
-                        console.log(result)
-                        setAuthentication(result.is_authenticated)
-                        setLoaded(true)
-                    })
-
-                    .catch((Error)=>setError(Error))
-
-            }
-
-            isAuthenticateds()
-
-        }
-    ,[])
-
-    return {is_authenticated, loaded, error}
-}
-
 export function useFetch<T>(link: string, init?: T, method: method = 'GET', request?: any){
 
     const [data, setData] = useState<any | undefined | T>(init)
