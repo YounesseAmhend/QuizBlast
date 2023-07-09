@@ -32,9 +32,9 @@ interface Question {
 export default function QuestionForm(props: Props) {
     const VALIDATIONS = {
         OPTIONS_LIMIT : 4,
-        OPTIONS_MAX_LENGTH: 100,
+        OPTIONS_MAX_LENGTH: 1000,
         OPTIONS_MIN : 2,
-        OPTIONS_MAX_EXPLINATION_LENGTH: 500,
+        OPTIONS_MAX_EXPLINATION_LENGTH: 1000,
         QUESTION_MIN_LENGTH: 5,
     }
     const ID_LENGTH = 6

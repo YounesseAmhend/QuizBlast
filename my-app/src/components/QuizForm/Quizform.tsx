@@ -11,7 +11,7 @@ interface Props {
 }
 export default function QuizForm(props: Props){
     const VALIDATION = {
-        input: 25,
+        input: 500,
     }
     // hooks
     const [loading, setLoading] =  useState<boolean>(false)
