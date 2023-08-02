@@ -23,8 +23,10 @@ export default function Quiz(props: Props) {
               Click(id);
             }
           }}>
-            <div className="title">{name}</div>
-            <div ref={madeByRef} onClick={()=>displayUser(userId)} className="madeBy">By {username}</div>
+            <div className="flex flex-col h-full justify-between">
+                <div className="title flex flex-col self-center">{name}</div>
+                <div ref={madeByRef} onClick={()=>displayUser(userId)} className="madeBy">By {username}</div>
+            </div>
         </div>
     );
 }

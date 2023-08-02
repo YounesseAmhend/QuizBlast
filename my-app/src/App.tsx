@@ -5,7 +5,8 @@ import {
 } from './components/index'
 import { useState, useEffect, useCallback } from "react"
 import { useAuth } from './components/ts/states/useAuth';
-
+import { useUser } from './components/ts/states/userStates';
+import { useDisplay } from './components/ts/states/useDisplay';
 const PAGES: Pages = {
   HOME: { name: "home", path: "/", auth: false },
   NEW: { name: "new", path: "/new", auth: true },
@@ -17,7 +18,7 @@ const PAGES: Pages = {
   LOGIN: { name: "login", path: "/login", auth: false },
 }
 
-interface Pages {
+export interface Pages {
   HOME: Page,
   NEW: Page,
   VIEW_QUIZ: Page,
@@ -27,7 +28,7 @@ interface Pages {
   REGISTER: Page,
   LOGIN: Page,
 }
-interface Display {
+export interface Display {
   home: boolean,
   new: boolean,
   view_quiz: boolean,
@@ -37,7 +38,7 @@ interface Display {
   register: boolean,
   login: boolean,
 }
-interface Page {
+export interface Page {
   auth: boolean,
   name: string,
   path: string,
@@ -49,20 +50,12 @@ function App() {
     }
   }, [])
 
-  const [id, setId] = useState<number | undefined>(undefined)
+  const {id, setId} = useUser()
   const [userId, setUserId] = useState<number | undefined>(undefined)
   const { is_authenticated, loaded } = useAuth()
   
-  const [display, setDisplays] = useState<Display>({
-    home: true,
-    new: false,
-    view_quiz: false,
-    user_view: false,
-    user_settings: false,
-
-    register: false,
-    login: false,
-  })
+  const {display, setDisplays} = useDisplay()
+  
   const navigateTo = useCallback((page: Page, id: string="") => {
     const updatedDisplay = { ...display };
     for (const key of Object.keys(updatedDisplay)) {
@@ -98,10 +91,9 @@ function App() {
   }
     , [is_authenticated])
 
-  useEffect(() => { if (id && display.view_quiz) { goToPath("/quiz/" + id) } }, [display.view_quiz, id])
-  useEffect(() => { if (userId && display.user_view) {goToPath("/user/" + userId) } }, [display.user_view, userId])
+  useEffect(() => { if (id && display.view_quiz) { goToPath("/quiz/" + id); displayView() } }, [display.view_quiz, id])
+  useEffect(() => { if (userId && display.user_view) {goToPath("/user/" + userId); displayUser(userId) } }, [display.user_view, userId])
   function goToPath(pathname: string) {
-    
     window.history.pushState(null, "", pathname);
   }
   function displayHome() {
@@ -117,6 +109,7 @@ function App() {
     navigateTo(PAGES.REGISTER)
   }
   function displayView() {
+    console.log("navigiting to view...") 
     navigateTo(PAGES.VIEW_QUIZ, String(id))
   }
   function displaySettings() {

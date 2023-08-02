@@ -152,3 +152,10 @@ export const logout = async () => {
         credentials: 'include'
     })
 }
+export function truncateTitle(title: string, maxLength: number = 40): string {
+    if (title.length <= maxLength) {
+      return title;
+    } else {
+      return title.slice(0, maxLength - 3) + "...";
+    }
+  }
