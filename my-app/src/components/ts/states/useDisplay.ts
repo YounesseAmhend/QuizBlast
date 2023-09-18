@@ -1,4 +1,4 @@
-import { Page, Pages, Display } from "../../../App";
+import { Display } from "../../../App";
 import { create } from 'zustand';
 
 interface UseDisplay {
@@ -14,6 +14,9 @@ export const useDisplay = create<UseDisplay>((set) => ({
       view_quiz: false,
       user_view: false,
       user_settings: false,
+      categories: false,
+      category: false,
+
       register: false,
       login: false,
     },

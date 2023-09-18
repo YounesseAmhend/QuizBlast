@@ -33,4 +33,9 @@ urlpatterns = [
     path("quiz/search", views.search_quiz, name="user_search"),
     
     path("quiz/autocomplete", views.autocomplete_quiz, name="quiz_autocomplete"),
+    
+    #catogories
+    
+    path("category", views.categories, name="catogories"),
+    path("category/<int:id>", views.category, name="catogories")
 ]

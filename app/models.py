@@ -10,11 +10,26 @@ class User(AbstractUser):
             "id":self.id,
             "username": self.username,
         }
-
+        
+class Category(models.Model):
+    name = models.CharField(max_length=255, unique=True,null=False)
+    description =  models.TextField(unique=True, null=False, default="")
+    
+    def __str__(self):                
+        return f"{self.name} ({self.id})" 
+    
+    def serialize(self):
+        return {
+            "id" : self.id,
+            "name" : self.name,
+            # "description" : self.description
+        }
+        
 # quiz have many questions
 class Quiz(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_post', null=False)
     name = models.TextField(blank=True, null=False)
+    categorie = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, default=1)
     timestamp = models.DateTimeField(auto_now_add=True, null=True)
     
     def serialize(self):
@@ -30,12 +45,13 @@ class Quiz(models.Model):
             "name": self.name,
         }
     def __str__(self):                
-        return self.name
+        return f"{self.name} ({self.id})" 
     
 # question have many options
 class Question(models.Model):
     content = models.TextField(blank=True, null=False)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='user_post', null=False)
+    
     timer = models.IntegerField(default=0, null=True)
     score = models.IntegerField(null=True)
     information = models.TextField(blank=True, null=True, default="")
@@ -51,7 +67,7 @@ class Question(models.Model):
         
         
     def __str__(self):                
-        return self.name
+        return self.content
     
 class Option(models.Model):
     content = models.TextField(blank=True, null=False)
@@ -60,8 +76,8 @@ class Option(models.Model):
     option_type = models.CharField(max_length=10,default="RADIO")
     
     def __str__(self):                
-        return self.name
-    
+        return f"{self.name} ({self.id})" 
+     
     def serialize(self):
         return {
             "id":self.id,
@@ -69,5 +85,3 @@ class Option(models.Model):
             "option_type": self.option_type,
             "correct": self.correct
         }
-
-    

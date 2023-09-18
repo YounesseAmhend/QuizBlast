@@ -3,7 +3,7 @@
 
 .navbar-custom{
   background-color: rgb(39, 48, 56);
-  padding:21px;
+  padding:21px 0;
   font-size: 17px;
 }
 #quiz-form-container{

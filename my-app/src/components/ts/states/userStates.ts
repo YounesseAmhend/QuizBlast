@@ -11,5 +11,12 @@ export const useUser = create<User>((set) => ({
 }));
 
 
+interface Category{
+  categoryId: number | undefined;
+  setCategoryId: (id: number | undefined) => void;
+}
 
-//const [userId, setUserId] = useState<number | undefined>(undefined)
+export const useCategory = create<Category>((set) => ({
+  categoryId: undefined,
+  setCategoryId: (categoryId) => set({categoryId}),
+}));

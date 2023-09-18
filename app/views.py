@@ -188,6 +188,7 @@ def search_quiz(request):
             return JsonResponse({'error': 'Invalid JSON payload'}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
 @csrf_exempt
 def autocomplete_quiz(request):
     if request.method == 'POST':
@@ -205,7 +206,41 @@ def autocomplete_quiz(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
+@csrf_exempt
+def categories(request):
+    if request.method == "GET":
+        return render(request, "index.html")
     
+    elif request.method == "POST":
+        return JsonResponse([categorie.serialize() for categorie in Category.objects.all()], safe=False)
+    
+@csrf_exempt
+def category(request, id):
+    if request.method == "GET":
+        return render(request, "index.html")
+    elif request.method == "POST":
+        try:
+            category = Category.objects.get(id=id)
+        except Category.DoesNotExist:
+            return JsonResponse({"quizs":[], "error": "Category does not exist"}, status=404)
+        
+        quiz_num = 20
+        page_number = loads(request.body).get("page_number")
+
+        start_index = (page_number - 1) * quiz_num
+        end_index = start_index + quiz_num
+
+        quiz_list =  Quiz.objects.all().filter(categorie=category)[start_index:end_index]
+        serialized_quizzes = [quiz.serialize() for quiz in quiz_list]
+        
+        if len(serialized_quizzes) < 20:
+            error_response = {
+                "quizs": serialized_quizzes,
+                "error": "No quizzes available for the requested page number.",
+            }
+            return JsonResponse(error_response, status=404)
+
+        return JsonResponse(serialized_quizzes, safe=False)
 # login logout register
 def register(request):
     if request.method == "POST":
@@ -238,7 +273,7 @@ def register(request):
         return render(request, "index.html")
  
 
-
+@csrf_exempt
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))

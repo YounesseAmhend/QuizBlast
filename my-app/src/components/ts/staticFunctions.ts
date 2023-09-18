@@ -159,3 +159,9 @@ export function truncateTitle(title: string, maxLength: number = 40): string {
       return title.slice(0, maxLength - 3) + "...";
     }
   }
+
+export function endsWithNumber(inputString: string): boolean {
+// Use a regular expression to match a number at the end of the string
+const regex = /\d+$/;
+return regex.test(inputString);
+}
